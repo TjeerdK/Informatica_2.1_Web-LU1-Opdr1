@@ -1,0 +1,43 @@
+extends layout
+
+block content
+  .container.mt-5
+    h2.text-center.mb-4 Gebruikersoverzicht
+
+    table.table.table-striped.table-bordered
+      thead.table-dark
+        tr
+          th Voornaam
+          th Achternaam
+          th E-mail
+          th Acties
+      tbody
+        each user in users
+          tr
+            td= user.first_name
+            td= user.last_name
+            td= user.email
+            td
+              button.btn.btn-danger.btn-sm(
+                onclick=`deleteUser('${user.id}', this)`
+              ) Verwijder
+
+    script.
+      function deleteUser(userId, btn) {
+        if (confirm('Weet je zeker dat je deze gebruiker wilt verwijderen?')) {
+          fetch(`/users/${userId}`, {
+            method: 'DELETE'
+          }).then(response => {
+            if (response.status === 204) {
+              // Verwijder de rij uit de tabel
+              const row = btn.closest('tr');
+              row.remove();
+            } else {
+              alert('Verwijderen mislukt.');
+            }
+          }).catch(err => {
+            console.error(err);
+            alert('Er is een fout opgetreden.');
+          });
+        }
+      }
