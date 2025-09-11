@@ -1,0 +1,37 @@
+extends ../layout
+
+block content
+  .container.mt-5
+    h2.text-center.mb-4 FilmOverzicht
+    a.btn.btn-primary(href='/movies/add') Voeg film toe
+
+    table.table.table-striped.table-bordered
+      thead.table-dark
+        tr
+          th Title
+          th Release Year
+          th rental_rate (price)
+          th length (minutes)
+          th Delete
+          th Edit
+      tbody
+        each movie in movies
+          tr
+            td= movie.title
+            td= movie.release_year
+            td= movie.rental_rate
+            td= movie.length 
+            //- delete button via form
+            td 
+              button.btn.btn-danger(type='button', onclick=`buttonClick(${movie.film_id}, this)`) Delete
+              //- form with method delete does not work in html, needs method override or js fetch
+              //- form(action=`/movies/${movie.movie_id}?_method=DELETE`, method='POST', onsubmit="return confirm('Weet je zeker dat je deze film wilt verwijderen?');")
+              //-   button.btn.btn-danger.btn-sm(type='submit') Verwijder
+              //- a.btn.btn-danger(href=`/movies/${movie.film_id}/delete`, onclick="return confirm('Weet je zeker dat je deze film wilt verwijderen?');") Verwijder
+            //- edit button via form
+            td 
+                console.log(movie)
+                a.btn.btn-primary(href=`/movies/${movie.film_id}/details`) details
+            //-   form(action=`/movies/${movie.movie_id}/details`, method='GET')
+            //-     button.btn.btn-primary.btn-sm(type='submit') Edit
+
