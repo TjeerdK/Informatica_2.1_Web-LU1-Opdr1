@@ -2,7 +2,14 @@ body {
   /* padding: 50px; */
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
-
+/* p{
+  margin: 0;
+  padding: 0;
+}
+h2{
+  margin: 0;
+  padding: 0;
+} */
 a {
   color: #00B7FF;
 }

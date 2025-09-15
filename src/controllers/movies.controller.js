@@ -13,6 +13,27 @@ const moviesController={
             // red.redirect(`/movies/${movieId}/details`, err); //niet hier doen want dan redirect die altijd
         });
     },
+    create: (req, res, next) => {
+
+        if (req.method === 'GET') {
+            movieService.getLanguages((err, languages) => {
+                // console
+            if (err) return next(err);
+            res.render('movies/details', {
+                languages: languages,
+                title: 'Create Movie',
+                action: '/movies/create'
+            });
+            });
+        } else {
+        console.log(req.body);
+
+            movieService.create(req.body, (err, movie) => {
+            if (err) return next(err);
+            res.redirect('/movies');
+            });
+        }
+    },
     get:(req,res,next)=>{
         let movieId=req.params.movieId;
         movieService.get(movieId,(err,movies)=>{
@@ -28,19 +49,41 @@ const moviesController={
     update:(req,res,next)=>{
         let movieId=req.params.movieId;
         let { title, description, release_year, rental_duration, rental_rate, length, replacement_cost, rating, special_features, language } = req.body;
-        req.method == 'GET'
-        ?
-        movieService.get(movieId, (err,movies)=>{
-            if(err) next(err);
-            if(movies) res.render('movies/details', { movie : movies[0][0], languages: movies[1]})
-        })
-        :
-        movieService.update(movieId, title, description, release_year, rental_duration, rental_rate, length, replacement_cost, rating, special_features, language , (err,movies)=>{
-            if(err) next(err);
-            if(movies) res.redirect(`/movies/${movieId}/details`);
-            // if(movies) res.render('movies/details', { movie : movies[0][0], languages: movies[1]});
-        })
-        
+        if (req.method === 'GET') {
+            movieService.get(movieId, (err, movieResult) => {
+                // console.log(movieResult[0].film_id);
+            if (err) return next(err);
+            const movie = movieResult[0]; // assuming movieService.get returns [[row], ...]
+            if (!movie) return res.status(404).send('Movie not found');
+            movieService.getLanguages((err, languages) => {
+                if (err) return next(err);
+                res.render('movies/details', {
+                movie: movie,
+                languages: languages,
+                title: 'Edit Movie',
+                action: `/movies/${movie.film_id}/update`
+                });
+            });
+            });
+        } else {
+            movieService.update(
+            movieId,
+            title,
+            description,
+            release_year,
+            rental_duration,
+            rental_rate,
+            length,
+            replacement_cost,
+            rating,
+            special_features,
+            language,
+            (err, movies) => {
+                if (err) return next(err);
+                if (movies) res.redirect(`/movies/${movieId}/details`);
+            }
+        );
+        }
     },
     delete:(req,res,next)=>{
         let movieId=req.params.movieId;

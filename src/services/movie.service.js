@@ -1,3 +1,5 @@
+const { create } = require('../controllers/movies.controller');
+const { getLanguages } = require('../daos/movie.dao');
 const movieDao = require('../daos/movie.dao');
 // Ander bestand waarin je de logger gebruikt.
 const logger = require("../util/logger");
@@ -7,7 +9,6 @@ const movieService={
     validate:(movieId, title, description, release_year, rental_duration, rental_rate, length, replacement_cost, rating, special_features, language, callback)=>{
         //validate using chai
         try {
-
             // expect(movieId).to.be.a('string', 'movieId must be a string');
             expect(title, 'title must not be empty').to.not.be.empty;
             expect(description, 'description must not be empty').to.not.be.empty;
@@ -38,12 +39,25 @@ const movieService={
         }
         return callback(undefined, true);
     },
+    create:(movieData, callback)=>{
+        movieDao.create(movieData, (err, movies) =>{
+            if(err) return callback(err, undefined);
+            if(movies) return callback(undefined, movies);
+        });
+    },
     get:(movieId, callback)=>{
-        movieDao.get(movieId, (err, movies) =>{
+        movieDao.get( movieId, (err, movies) =>{
             if(err) return callback(err, undefined);
             if(movies){
-                // logger.debug("Hier je logmessage.");
                 return callback(undefined, movies);
+            }
+        });
+    },
+    getLanguages:(callback)=>{
+        movieDao.getLanguages( (err, languages) =>{
+            if(err) return callback(err, undefined);
+            if(languages){
+                return callback(undefined, languages);
             }
         });
     },

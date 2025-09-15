@@ -1,7 +1,37 @@
 // const data = require('../db/example.data');
-const { update } = require('../controllers/movies.controller');
+const { update, create } = require('../controllers/movies.controller');
 const database = require('../db/sql/connection');
 const movieDao = {
+    getLanguages:(callback)=>{
+        database.query(
+            `SELECT * FROM ??;`, ['language'], (err, data) => {
+                if(err) return callback(err, undefined);
+                if(data) return callback(undefined, data);
+            }
+        )
+    },
+    create:(movieData, callback)=>{
+        console.log(movieData.release_year);
+        database.query(
+            `INSERT INTO ?? (??, ??, ??, ??, ??, ??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+            ['film',
+            'title', 'description', 'release_year', 'language_id', 'rental_duration', 'rental_rate', 'length', 'replacement_cost', 'rating', 'special_features',
+            movieData.title,
+            movieData.description,
+            movieData.release_year,
+            movieData.language,
+            movieData.rental_duration,
+            movieData.rental_rate,
+            movieData.length,
+            movieData.replacement_cost,
+            movieData.rating,
+            movieData.special_features,],
+            (err, result) => {
+                if(err) return callback(err, undefined);
+                if(result) return callback(undefined, result);
+            }
+        )
+    },
     get:(movieId, callback)=>{
         database.query(
             movieId == undefined 
@@ -10,8 +40,7 @@ const movieDao = {
                 FROM ?? f
                 JOIN ?? l ON f.language_id = l.language_id
                 WHERE f.film_id = ?;
-                SELECT * FROM ??;
-                `, ['film','language', movieId , 'language'], (err, data) => {
+                `, ['film','language', movieId], (err, data) => {
                 if(err) return callback(err, undefined);
                 if(data) return callback(undefined, data);
             }

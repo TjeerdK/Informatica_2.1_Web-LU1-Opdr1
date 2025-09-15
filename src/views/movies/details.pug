@@ -1,53 +1,65 @@
 extends ../layout
 
 block content 
+  form(method="POST" action=`${action}`)
+    div.card 
+      div.card-body
+        h5.card-title #{title}
 
-    form(method="POST" action=`/movies/${movie.film_id}/update`)
-        div.card 
-            div.card-body
-                h5.card-title Edit Movie
-                div.mb-3
-                    label.form-label(for="title") Title
-                    input.form-control(type="text" id="title" name="title" value=movie.title)
-                div.mb-3
-                    label.form-label(for="description") Description
-                    textarea.form-control(id="description" name="description") #{movie.description}
+        div.mb-3
+          label.form-label(for="title") Title
+          input.form-control(type="text" id="title" name="title" value=(movie && movie.title ? movie.title : ''))
 
-            ul.list-group.list-group-flush.d-flex.flex-row
-                div
-                    li.list-group-item
-                        label.form-label(for="release_year") Release Year
-                        input.form-control(type="number" id="release_year" name="release_year" value=movie.release_year)
-                    li.list-group-item
-                        label.form-label(for="rental_duration") Rental Duration
-                        input.form-control(type="number" id="rental_duration" name="rental_duration" value=movie.rental_duration)
-                    li.list-group-item
-                        label.form-label(for="rental_rate") Rental Rate
-                        input.form-control(type="text" id="rental_rate" name="rental_rate" value=movie.rental_rate)
-                div
-                    li.list-group-item
-                        label.form-label(for="length") Movie Length (min)
-                        input.form-control(type="number" id="length" name="length" value=movie.length)
-                    li.list-group-item
-                        label.form-label(for="replacement_cost") Replacement Cost
-                        input.form-control(type="text" id="replacement_cost" name="replacement_cost" value=movie.replacement_cost)
-                    li.list-group-item
-                        label.form-label(for="rating") Rating
-                        input.form-control(type="text" id="rating" name="rating" value=movie.rating)
-                div 
-                    li.list-group-item
-                        label.form-label(for="special_features") Special Features
-                        input.form-control(type="text" id="special_features" name="special_features" value=movie.special_features)
-                    li.list-group-item
-                        label.form-label(for="language") Language
-                        select.form-select(id="language" name="language")
-                            each lang in languages
-                                option(value=lang.language_id selected=(movie.language_id === lang.language_id))= lang.name
-                    
+        div.mb-3
+          label.form-label(for="description") Description
+          textarea.form-control(id="description" name="description") #{movie && movie.description ? movie.description : ''}
 
-            div.card-body
-                button.btn.btn-primary(type="submit" ) Save Changes
-                //- button with post to delete
-                a.btn.btn-danger(href=`/movies/${movie.film_id}/delete`, onclick="return confirm('Weet je zeker dat je deze film wilt verwijderen?');") Delete
-                //- form(action=`/movies/${movie.film_id}/delete`, method='DELETE', onsubmit="return confirm('Weet je zeker dat je deze film wilt verwijderen?');")
-                //-     button.btn.btn-danger(type='submit') Verwijder
+        ul.list-group.list-group-flush.d-flex.flex-row
+          div
+            li.list-group-item
+              label.form-label(for="release_year") Release Year
+              input.form-control(type="number" id="release_year" name="release_year" value=(movie && movie.release_year ? movie.release_year : ''))
+
+            li.list-group-item
+              label.form-label(for="rental_duration") Rental Duration
+              input.form-control(type="number" id="rental_duration" name="rental_duration" value=(movie && movie.rental_duration ? movie.rental_duration : ''))
+
+            li.list-group-item
+              label.form-label(for="rental_rate") Rental Rate
+              input.form-control(type="text" id="rental_rate" name="rental_rate" value=(movie && movie.rental_rate ? movie.rental_rate : ''))
+
+          div
+            li.list-group-item
+              label.form-label(for="length") Movie Length (min)
+              input.form-control(type="number" id="length" name="length" value=(movie && movie.length ? movie.length : ''))
+
+            li.list-group-item
+              label.form-label(for="replacement_cost") Replacement Cost
+              input.form-control(type="text" id="replacement_cost" name="replacement_cost" value=(movie && movie.replacement_cost ? movie.replacement_cost : ''))
+
+            li.list-group-item
+              label.form-label(for="rating") Rating
+              input.form-control(type="text" id="rating" name="rating" value=(movie && movie.rating ? movie.rating : ''))
+
+          div
+            li.list-group-item
+              label.form-label(for="special_features") Special Features
+              input.form-control(type="text" id="special_features" name="special_features" value=(movie && movie.special_features ? movie.special_features : ''))
+
+            li.list-group-item
+              label.form-label(for="language") Language
+              select.form-select(id="language" name="language")
+                option(value="") -- Select a language --
+                each lang in languages
+                  option(
+                    value=lang.language_id 
+                    selected=(movie && movie.language_id ? lang.language_id === movie.language_id : false)
+                  )= lang.name
+
+      div.card-body
+        button.btn.btn-primary(type="submit") Save Changes
+        if movie && movie.film_id
+          a.btn.btn-danger(
+            href=`/movies/${movie.film_id}/delete`, 
+            onclick="return confirm('Weet je zeker dat je deze film wilt verwijderen?');"
+          ) Delete
