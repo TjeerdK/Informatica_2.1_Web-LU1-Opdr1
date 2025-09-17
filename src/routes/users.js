@@ -2,9 +2,10 @@ var express = require('express');
 var router = express.Router();
 
 const userController=require('../controllers/user.controller');
+const authController = require('../controllers/auth.controller');
 
 /* GET users listing. */
-router.get('/', userController.get);
-router.get('/:userId', userController.get);
-router.delete('/:userId', userController.delete);
+router.get('/',authController.isLoggedIn, userController.get);
+router.get('/:userId',authController.isLoggedIn, userController.get);
+router.delete('/:userId',authController.isLoggedIn, userController.delete);
 module.exports = router;

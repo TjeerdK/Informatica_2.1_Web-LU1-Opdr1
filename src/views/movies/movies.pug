@@ -2,37 +2,28 @@ extends ../layout
 
 block content
   .container.mt-5
-    div.d-flex.justify-content-between.mb-3
-      h2.text-center FilmOverzicht
+    .d-flex.justify-content-between.align-items-center.mb-3
+      h2.text-center.mb-0 FilmOverzicht
       a.btn.btn-primary(href='/movies/add') Voeg film toe
-
-    table.table.table-striped.table-bordered
-      thead.table-dark
-        tr
-          th Title
-          th Release Year
-          th rental_rate (price)
-          th length (minutes)
-          th Delete
-          th Edit
-      tbody
-        each movie in movies
-          tr
-            td= movie.title
-            td= movie.release_year
-            td= movie.rental_rate
-            td= movie.length 
-            //- delete button via form
-            td 
-              button.btn.btn-danger(type='button', onclick=`buttonClick(${movie.film_id}, this)`) Delete
-              //- form with method delete does not work in html, needs method override or js fetch
-              //- form(action=`/movies/${movie.movie_id}?_method=DELETE`, method='POST', onsubmit="return confirm('Weet je zeker dat je deze film wilt verwijderen?');")
-              //-   button.btn.btn-danger.btn-sm(type='submit') Verwijder
-              //- a.btn.btn-danger(href=`/movies/${movie.film_id}/delete`, onclick="return confirm('Weet je zeker dat je deze film wilt verwijderen?');") Verwijder
-            //- edit button via form
-            td 
-                console.log(movie)
-                a.btn.btn-primary(href=`/movies/${movie.film_id}/details`) details
-            //-   form(action=`/movies/${movie.movie_id}/details`, method='GET')
-            //-     button.btn.btn-primary.btn-sm(type='submit') Edit
+    .row.g-4
+      each movie in movies
+        .col-lg-3.col-md-4.col-sm-6
+          .card.h-100.shadow-sm
+            h5.card-header.bg-dark.text-white #{movie.title}
+            .card-body
+              h5.card-title #{movie.genre || 'Genre onbekend'}
+              p.card-text #{movie.description || 'Geen beschrijving beschikbaar.'}
+              .d-flex.justify-content-between.mt-3
+                a.btn.btn-primary(href=`/movies/${movie.film_id}/details`) Details
+                button.btn.btn-danger(type='button', onclick=`buttonClick(${movie.film_id}, this)`) Delete
+    .d-flex.justify-content-center.align-items-center.mt-4
+      button#moviePagePrev.btn.btn-secondary.mx-2(type='button') Vorige
+      span.mx-2
+        | Pagina 
+        span#moviePageCurrent 1
+        |  van 
+        span#moviePageTotal 1
+      button#moviePageNext.btn.btn-secondary.mx-2(type='button') Volgende
+  script(src='/javascripts/delete.movie.js')
+  script(src='/util/moviePage.js')
 

@@ -1,0 +1,15 @@
+extend ../layout
+
+block content
+  form(method="POST" action="/auth/login")
+    div.mb-3
+      label(for="email") Email address
+      input.form-control(type="email" id="email" name="email" required)
+    div.mb-3
+      label(for="password") Password
+      input.form-control(type="password" id="password" name="password" required)
+    //- div.mb-3.form-check
+    //-   input.form-check-input(type="checkbox" id="rememberMe" name="rememberMe")
+    //-   label.form-check-label(for="rememberMe") Remember me
+    button.btn.btn-primary(type="submit") Login
+    //- button.btn.btn-primary(type="button" onclick="location.href='/auth/register'") Register

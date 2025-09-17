@@ -1,6 +1,5 @@
 const { render } = require('../../app');
 const movieService=require('../services/movie.service');
-const logger = require("../util/logger");
 
 const moviesController={
     validate:(req,res,next)=>{
@@ -14,10 +13,9 @@ const moviesController={
         });
     },
     create: (req, res, next) => {
-
         if (req.method === 'GET') {
             movieService.getLanguages((err, languages) => {
-                // console
+            // console
             if (err) return next(err);
             res.render('movies/details', {
                 languages: languages,
@@ -26,7 +24,7 @@ const moviesController={
             });
             });
         } else {
-        console.log(req.body);
+        // console.log(req.body);
 
             movieService.create(req.body, (err, movie) => {
             if (err) return next(err);
@@ -38,7 +36,7 @@ const moviesController={
         let movieId=req.params.movieId;
         movieService.get(movieId,(err,movies)=>{
             if(err) next(err);
-            console.log(movies);
+            // console.log(movies);
             if(movies){
                 movieId == undefined
                 ? res.render('movies/movies', { movies })

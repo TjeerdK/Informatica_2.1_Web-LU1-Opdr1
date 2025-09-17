@@ -6,7 +6,7 @@ const usersDao = {
             userId == undefined 
             ? `SELECT * FROM ?? ;`
             : `SELECT * FROM ?? WHERE ?? = ?;`, ['customer', 'customer_id', userId], (err, data) => {
-                console.log(data);
+                // console.log(data);
                 if(err) return callback(err, undefined);
                 if(data) return callback(undefined, data);
             }

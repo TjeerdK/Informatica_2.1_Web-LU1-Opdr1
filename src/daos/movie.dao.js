@@ -35,7 +35,7 @@ const movieDao = {
     get:(movieId, callback)=>{
         database.query(
             movieId == undefined 
-            ? `SELECT * FROM ?? LIMIT 10;`
+            ? `SELECT * FROM ??;`
             : `SELECT f.*, l.name AS language_name
                 FROM ?? f
                 JOIN ?? l ON f.language_id = l.language_id
