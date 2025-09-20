@@ -27,16 +27,18 @@ const moviesController={
         // console.log(req.body);
 
             movieService.create(req.body, (err, movie) => {
-            if (err) return next(err);
-            res.redirect('/movies');
+                if (err) return next(err);
+                req.session.success = 'Movie created successfully';
+                res.redirect('/movies');
             });
         }
     },
     get:(req,res,next)=>{
         let movieId=req.params.movieId;
         movieService.get(movieId,(err,movies)=>{
+            // console.log(err);
             if(err) next(err);
-            // console.log(movies);
+            console.log(movies);
             if(movies){
                 movieId == undefined
                 ? res.render('movies/movies', { movies })
@@ -78,7 +80,10 @@ const moviesController={
             language,
             (err, movies) => {
                 if (err) return next(err);
-                if (movies) res.redirect(`/movies/${movieId}/details`);
+                if (movies) {
+                    req.session.success = 'Movie updated successfully';
+                    res.redirect(`/movies/${movieId}/details`);
+                }
             }
         );
         }

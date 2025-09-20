@@ -36,11 +36,11 @@ html
     .container
       if success
         .alert.alert-success.alert-dismissible.fade.show(role='alert')
-          | #{success}
+          = success
           button.btn-close(type='button', data-bs-dismiss='alert', aria-label='Close')
       if error
         .alert.alert-danger.alert-dismissible.fade.show(role='alert')
-          | #{error}
+          = error
           button.btn-close(type='button', data-bs-dismiss='alert', aria-label='Close')
       block content
 

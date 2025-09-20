@@ -11,7 +11,7 @@
     "bootstrap": "^5.3.8",
     "chai": "~4.0.1",
     "cookie-parser": "~1.4.4",
-    "cypress": "^15.2.0",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^17.2.2",
     "express": "~4.16.1",
@@ -24,6 +24,8 @@
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^24.5.2",
     "nodemon": "^3.1.10"
   }
 }

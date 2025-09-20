@@ -4,26 +4,52 @@ block content
   .container.mt-5
     .d-flex.justify-content-between.align-items-center.mb-3
       h2.text-center.mb-0 FilmOverzicht
-      a.btn.btn-primary(href='/movies/add') Voeg film toe
+      form.d-flex.ms-3.flex-grow-1(role='search', onsubmit='return false;')
+        input#movieSearch.form-control.me-2(type='search', placeholder='Zoek op titel...', aria-label='Zoek')
+      a.btn.btn-primary.ms-3(href='/movies/add') Voeg film toe
     .row.g-4
       each movie in movies
-        .col-lg-3.col-md-4.col-sm-6
+        .col-lg-3.col-md-4.col-sm-6.movie-card
           .card.h-100.shadow-sm
-            h5.card-header.bg-dark.text-white #{movie.title}
+            h5.card-header.bg-dark.text-white.d-flex.flex-column.align-items-start
+              .d-flex.justify-content-between.align-items-center.w-100
+                span #{movie.title}
+                span.badge.bg-info.text-dark.ms-2 #{movie.inventory_count || 0} beschikbaar
+              button.btn.btn-warning.btn-sm.mt-2(type='button', onclick='showRentPopup()') Verhuren
             .card-body
-              h5.card-title #{movie.genre || 'Genre onbekend'}
+              h5.card-title #{movie.categories || 'Genre onbekend'}
               p.card-text #{movie.description || 'Geen beschrijving beschikbaar.'}
               .d-flex.justify-content-between.mt-3
                 a.btn.btn-primary(href=`/movies/${movie.film_id}/details`) Details
                 button.btn.btn-danger(type='button', onclick=`buttonClick(${movie.film_id}, this)`) Delete
-    .d-flex.justify-content-center.align-items-center.mt-4
-      button#moviePagePrev.btn.btn-secondary.mx-2(type='button') Vorige
-      span.mx-2
-        | Pagina 
-        span#moviePageCurrent 1
-        |  van 
-        span#moviePageTotal 1
-      button#moviePageNext.btn.btn-secondary.mx-2(type='button') Volgende
+  // Popup modal for not implemented feature
+  .modal.fade#rentModal(tabindex='-1', aria-labelledby='rentModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h5.modal-title#rentModalLabel Functie niet beschikbaar
+          button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
+        .modal-body
+          | De verhuurfunctie is nog niet beschikbaar.
+        .modal-footer
+          button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Sluiten
+  script.
+    function showRentPopup() {
+      var rentModal = new bootstrap.Modal(document.getElementById('rentModal'));
+      rentModal.show();
+    }
+    // Search functionality
+    document.addEventListener('DOMContentLoaded', function () {
+      const searchInput = document.getElementById('movieSearch');
+      if (!searchInput) return;
+      searchInput.addEventListener('input', function () {
+        const query = this.value.toLowerCase();
+        document.querySelectorAll('.movie-card').forEach(card => {
+          const title = card.querySelector('.card-header span').textContent.toLowerCase();
+          card.style.display = title.includes(query) ? '' : 'none';
+        });
+      });
+    });
   script(src='/javascripts/delete.movie.js')
   script(src='/util/moviePage.js')
 

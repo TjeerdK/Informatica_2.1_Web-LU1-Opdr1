@@ -12,6 +12,8 @@ const movieDao = {
     },
     create:(movieData, callback)=>{
         console.log(movieData.release_year);
+        console.log('AAAAAAAAAAAAAAAAAAAAA')
+        if(movieData.release_year === '' || movieData.release_year === undefined || isNaN(movieData.release_year)) movieData.release_year = null;
         database.query(
             `INSERT INTO ?? (??, ??, ??, ??, ??, ??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
             ['film',
@@ -35,7 +37,17 @@ const movieDao = {
     get:(movieId, callback)=>{
         database.query(
             movieId == undefined 
-            ? `SELECT * FROM ??;`
+            ? `
+            SELECT 
+    f.*,  
+    GROUP_CONCAT(DISTINCT c.name ORDER BY c.name SEPARATOR ', ') AS categories,
+    COUNT(i.inventory_id) AS inventory_count
+FROM film f
+JOIN film_category fc ON f.film_id = fc.film_id
+JOIN category c ON fc.category_id = c.category_id
+LEFT JOIN inventory i ON f.film_id = i.film_id
+GROUP BY f.film_id order by f.title;
+                `
             : `SELECT f.*, l.name AS language_name
                 FROM ?? f
                 JOIN ?? l ON f.language_id = l.language_id
@@ -47,22 +59,37 @@ const movieDao = {
         )
     },
     update:(movieId, movieData, callback)=>{
-        // console.log("is hier")
+        console.log(movieData)
         database.query(
-            `UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE ?? = ?;`, 
-            ['film',
-            'title', movieData.title,
-            'description', movieData.description,
-            'release_year', movieData.release_year, 
-            'language_id', movieData.language_id,
-            // 'original_language', movieData.original_language,
-            'rental_duration', movieData.rental_duration,
-            'rental_rate', movieData.rental_rate,
-            'length', movieData.length,
-            'replacement_cost', movieData.replacement_cost,
-            'rating', movieData.rating,
-            'special_features', movieData.special_features,
-            'film_id', movieId], (err, result) => {
+            `UPDATE film SET 
+                title = ?, 
+                description = ?, 
+                release_year = ?, 
+                language_id = ?, 
+                rental_duration = ?, 
+                rental_rate = ?, 
+                length = ?, 
+                replacement_cost = ?, 
+                rating = ?, 
+                special_features = ?
+            WHERE film_id = ?;`,
+            [
+                movieData.title,
+                movieData.description,
+                movieData.release_year,
+                movieData.language_id,
+                movieData.rental_duration,
+                movieData.rental_rate,
+                movieData.length,
+                movieData.replacement_cost,
+                movieData.rating,
+                movieData.special_features,
+                movieId
+            ],
+            (err, result) => {
+                
+                console.log(err);
+                console.log(result);
                 if(err) return callback(err, undefined);
                 if(result) return callback(undefined, result);
             }

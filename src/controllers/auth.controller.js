@@ -12,9 +12,12 @@ const authController={
         }
         else if (req.method === 'POST') {
             authService.login(email,password,(err,user)=>{
+                console.log(user);
                 if(err) {
-                    // logger.error("Error during login: " + err.message);
                     return res.render('auth/login', {error: err.message});
+                }
+                if(!user) {
+                    return res.render('auth/login', {error: 'Invalid email or password'});
                 }
                 req.session.user = user;
 
@@ -38,7 +41,9 @@ const authController={
         } else {
             // res.redirect('/auth/login');
             const error = new Error('Not logged in');
-            next(error);
+            req.session.error = error.message;
+            return res.redirect('/auth/login');
+            // next(error);
         }
     },
     register:(req,res,next)=>{

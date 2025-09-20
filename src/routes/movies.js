@@ -5,8 +5,8 @@ const moviesController=require('../controllers/movies.controller');
 const authController = require('../controllers/auth.controller');
 
 
-router.get('/:movieId/details', moviesController.update);
-router.get('/add', moviesController.create);
+router.get('/:movieId/details',authController.isLoggedIn, moviesController.update);
+router.get('/add',authController.isLoggedIn, moviesController.create);
 
 /* GET movies listing. */
 router.get('/', authController.isLoggedIn, moviesController.get);

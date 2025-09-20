@@ -8,43 +8,43 @@ block content
 
         div.mb-3
           label.form-label(for="title") Title
-          input.form-control(type="text" id="title" name="title" value=(movie && movie.title ? movie.title : ''))
+          input.form-control(type="text" id="title" name="title" value=(formData && formData.title ? formData.title : (movie && movie.title ? movie.title : '')))
 
         div.mb-3
           label.form-label(for="description") Description
-          textarea.form-control(id="description" name="description") #{movie && movie.description ? movie.description : ''}
+          textarea.form-control(id="description" name="description") #{(formData && formData.description) ? formData.description : (movie && movie.description) ? movie.description : ''}
 
         ul.list-group.list-group-flush.d-flex.flex-row
           div
             li.list-group-item
               label.form-label(for="release_year") Release Year
-              input.form-control(type="number" id="release_year" name="release_year" value=(movie && movie.release_year ? movie.release_year : ''))
+              input.form-control(type="number" id="release_year" name="release_year" value=(formData && formData.release_year ? formData.release_year : (movie && movie.release_year ? movie.release_year : '')))
 
             li.list-group-item
               label.form-label(for="rental_duration") Rental Duration
-              input.form-control(type="number" id="rental_duration" name="rental_duration" value=(movie && movie.rental_duration ? movie.rental_duration : ''))
+              input.form-control(type="number" id="rental_duration" name="rental_duration" value=(formData && formData.rental_duration ? formData.rental_duration : (movie && movie.rental_duration ? movie.rental_duration : '')))
 
             li.list-group-item
               label.form-label(for="rental_rate") Rental Rate
-              input.form-control(type="text" id="rental_rate" name="rental_rate" value=(movie && movie.rental_rate ? movie.rental_rate : ''))
+              input.form-control(type="text" id="rental_rate" name="rental_rate" value=(formData && formData.rental_rate ? formData.rental_rate : (movie && movie.rental_rate ? movie.rental_rate : '')))
 
           div
             li.list-group-item
               label.form-label(for="length") Movie Length (min)
-              input.form-control(type="number" id="length" name="length" value=(movie && movie.length ? movie.length : ''))
+              input.form-control(type="number" id="length" name="length" value=(formData && formData.length ? formData.length : (movie && movie.length ? movie.length : '')))
 
             li.list-group-item
               label.form-label(for="replacement_cost") Replacement Cost
-              input.form-control(type="text" id="replacement_cost" name="replacement_cost" value=(movie && movie.replacement_cost ? movie.replacement_cost : ''))
+              input.form-control(type="text" id="replacement_cost" name="replacement_cost" value=(formData && formData.replacement_cost ? formData.replacement_cost : (movie && movie.replacement_cost ? movie.replacement_cost : '')))
 
             li.list-group-item
               label.form-label(for="rating") Rating
-              input.form-control(type="text" id="rating" name="rating" value=(movie && movie.rating ? movie.rating : ''))
+              input.form-control(type="text" id="rating" name="rating" value=(formData && formData.rating ? formData.rating : (movie && movie.rating ? movie.rating : '')))
 
           div
             li.list-group-item
               label.form-label(for="special_features") Special Features
-              input.form-control(type="text" id="special_features" name="special_features" value=(movie && movie.special_features ? movie.special_features : ''))
+              input.form-control(type="text" id="special_features" name="special_features" value=(formData && formData.special_features ? formData.special_features : (movie && movie.special_features ? movie.special_features : '')))
 
             li.list-group-item
               label.form-label(for="language") Language
@@ -53,13 +53,13 @@ block content
                 each lang in languages
                   option(
                     value=lang.language_id 
-                    selected=(movie && movie.language_id ? lang.language_id === movie.language_id : false)
+                    selected=(formData && formData.language ? lang.language_id == formData.language : (movie && movie.language_id ? lang.language_id === movie.language_id : false))
                   )= lang.name
 
       div.card-body
         button.btn.btn-primary(type="submit") Save Changes
-        if movie && movie.film_id
-          a.btn.btn-danger(
-            href=`/movies/${movie.film_id}/delete`, 
-            onclick="return confirm('Weet je zeker dat je deze film wilt verwijderen?');"
-          ) Delete
+        //- if movie && movie.film_id
+        //-   a.btn.btn-danger(
+        //-     href=`/movies/${movie.film_id}/delete`, 
+        //-     onclick="return confirm('Weet je zeker dat je deze film wilt verwijderen?');"
+        //-   ) Delete
