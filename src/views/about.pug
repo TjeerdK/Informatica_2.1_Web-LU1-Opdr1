@@ -1,6 +1,28 @@
-extend layout
+extends layout
 
 block content
   .container.mt-5
-    h1.text-center Over ons
-    p Dit is een voorbeeld van een "Over ons" pagina.
+    h2.mb-4 User Stories
+    .d-flex.flex-wrap.gap-5
+      .flex-fill.min-w-300px
+        h4 Login & Authenticatie
+        ul.list-unstyled
+          li.mb-3 Inloggen medewerker: Als medewerker wil ik kunnen inloggen met mijn email en wachtwoord zodat ik toegang heb tot het filmsysteem en de filmgegevens kan beheren.
+          li.mb-3 Foutmelding bij verkeerde login: Als medewerker wil ik een duidelijke foutmelding krijgen wanneer mijn inloggegevens onjuist zijn zodat ik weet dat ik het opnieuw moet proberen.
+          li.mb-3 Uitloggen: Als medewerker wil ik veilig kunnen uitloggen zodat onbevoegden geen toegang hebben tot de gegevens.
+      .flex-fill.min-w-300px
+        h4 CRUD Systeem voor Films
+        ul.list-unstyled
+          li.mb-3 Film toevoegen: Als medewerker wil ik nieuwe films kunnen toevoegen met informatie zoals titel, jaar, beschrijving, lengte van de film en huurprijs zodat klanten deze films kunnen huren.
+          li.mb-3 Filmgegevens bekijken (Read): Als medewerker wil ik een overzicht kunnen zien van alle films zodat ik snel kan nagaan welke films beschikbaar zijn.
+          li.mb-3 Film bewerken (Update): Als medewerker wil ik de details van een film kunnen aanpassen (bijv. titel, beschrijving, huurprijs, beschikbaarheid) zodat de gegevens altijd up-to-date zijn.
+          li.mb-3 Film verwijderen (Delete): Als medewerker wil ik een film kunnen verwijderen uit het systeem zodat oude of niet-beschikbare films niet meer worden getoond.
+    .mt-5
+      h4 Zoeken & Filteren
+      ul.list-unstyled
+        li.mb-3 Filteren op naam: Als medewerker wil ik films kunnen filteren op titel zodat ik snel een specifieke film kan vinden in het overzicht.
+        li.mb-3 Zoekresultaten bijwerken in realtime (optioneel): Als medewerker wil ik dat de film lijst automatisch wordt bijgewerkt tijdens het typen van een zoekopdracht zodat ik sneller kan werken.
+    .row.mt-5.justify-content-center
+      .col-md-8.text-center
+        img.img-fluid.rounded.shadow(src='/images/Wireframes.png', alt='Wireframes')
+        p.text-muted.mt-2 Wireframes van de website.

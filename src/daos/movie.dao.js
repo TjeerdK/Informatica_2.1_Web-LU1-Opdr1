@@ -39,14 +39,14 @@ const movieDao = {
             movieId == undefined 
             ? `
             SELECT 
-    f.*,  
-    GROUP_CONCAT(DISTINCT c.name ORDER BY c.name SEPARATOR ', ') AS categories,
-    COUNT(i.inventory_id) AS inventory_count
-FROM film f
-JOIN film_category fc ON f.film_id = fc.film_id
-JOIN category c ON fc.category_id = c.category_id
-LEFT JOIN inventory i ON f.film_id = i.film_id
-GROUP BY f.film_id order by f.title;
+            f.*,  
+            GROUP_CONCAT(DISTINCT c.name ORDER BY c.name SEPARATOR ', ') AS categories,
+            COUNT(i.inventory_id) AS inventory_count
+            FROM film f
+            JOIN film_category fc ON f.film_id = fc.film_id
+            JOIN category c ON fc.category_id = c.category_id
+            LEFT JOIN inventory i ON f.film_id = i.film_id
+            GROUP BY f.film_id order by f.title;
                 `
             : `SELECT f.*, l.name AS language_name
                 FROM ?? f
@@ -60,6 +60,7 @@ GROUP BY f.film_id order by f.title;
     },
     update:(movieId, movieData, callback)=>{
         console.log(movieData)
+        if(movieData.release_year === '' || movieData.release_year === undefined || isNaN(movieData.release_year)) movieData.release_year = null;
         database.query(
             `UPDATE film SET 
                 title = ?, 
