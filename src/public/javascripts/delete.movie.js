@@ -26,8 +26,9 @@ function buttonClick(movieId, buttonElement) {
         }
 
         if (success) {
-            const row = buttonElement.closest('tr');
-            if (row) row.remove();
+            // Remove the entire column (col-*) that contains the card
+            const col = buttonElement.closest('.col-lg-3, .col-md-4, .col-sm-6');
+            if (col) col.remove();
             alert('Movie deleted successfully.');
         }
     });

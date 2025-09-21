@@ -3,10 +3,10 @@ extends ../layout
 block content
   .container.mt-5
     .d-flex.justify-content-between.align-items-center.mb-3
-      h2.text-center.mb-0 FilmOverzicht
+      h2.text-center.mb-0 Movie overview
       form.d-flex.ms-3.flex-grow-1(role='search', onsubmit='return false;')
         input#movieSearch.form-control.me-2(type='search', placeholder='Zoek op titel...', aria-label='Zoek')
-      a.btn.btn-primary.ms-3(href='/movies/add') Voeg film toe
+      a.btn.btn-primary.ms-3(href='/movies/add') Add movie
     .row.g-4
       each movie in movies
         .col-lg-3.col-md-4.col-sm-6.movie-card
@@ -14,11 +14,11 @@ block content
             h5.card-header.bg-dark.text-white.d-flex.flex-column.align-items-start
               .d-flex.justify-content-between.align-items-center.w-100
                 span #{movie.title}
-                span.badge.bg-info.text-dark.ms-2 #{movie.inventory_count || 0} beschikbaar
-              button.btn.btn-warning.btn-sm.mt-2(type='button', onclick='showRentPopup()') Verhuren
+                span.badge.bg-info.text-dark.ms-2 #{movie.inventory_count || 0} available
+              button.btn.btn-warning.btn-sm.mt-2(type='button', onclick='showRentPopup()') Rent
             .card-body
-              h5.card-title #{movie.categories || 'Genre onbekend'}
-              p.card-text #{movie.description || 'Geen beschrijving beschikbaar.'}
+              h5.card-title #{movie.categories || 'Unknown Genre'}
+              p.card-text #{movie.description || 'No description available.'}
               .d-flex.justify-content-between.mt-3
                 a.btn.btn-primary(href=`/movies/${movie.film_id}/details`) Details
                 button.btn.btn-danger(type='button', onclick=`buttonClick(${movie.film_id}, this)`) Delete
@@ -27,12 +27,12 @@ block content
     .modal-dialog
       .modal-content
         .modal-header
-          h5.modal-title#rentModalLabel Functie niet beschikbaar
+          h5.modal-title#rentModalLabel Function not available
           button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
         .modal-body
-          | De verhuurfunctie is nog niet beschikbaar.
+          | The rental function is not yet available.
         .modal-footer
-          button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Sluiten
+          button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Close
   script.
     function showRentPopup() {
       var rentModal = new bootstrap.Modal(document.getElementById('rentModal'));

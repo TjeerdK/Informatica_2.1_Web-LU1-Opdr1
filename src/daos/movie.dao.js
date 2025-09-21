@@ -39,14 +39,15 @@ const movieDao = {
             movieId == undefined 
             ? `
             SELECT 
-            f.*,  
+            f.*,
             GROUP_CONCAT(DISTINCT c.name ORDER BY c.name SEPARATOR ', ') AS categories,
             COUNT(i.inventory_id) AS inventory_count
             FROM film f
-            JOIN film_category fc ON f.film_id = fc.film_id
-            JOIN category c ON fc.category_id = c.category_id
+            LEFT JOIN film_category fc ON f.film_id = fc.film_id
+            LEFT JOIN category c ON fc.category_id = c.category_id
             LEFT JOIN inventory i ON f.film_id = i.film_id
-            GROUP BY f.film_id order by f.title;
+            GROUP BY f.film_id
+            ORDER BY f.film_id Desc;
                 `
             : `SELECT f.*, l.name AS language_name
                 FROM ?? f
